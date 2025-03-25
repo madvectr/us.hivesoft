@@ -6,8 +6,8 @@ import Footer from '@/components/Footer'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'HiveSoft - AI-Powered Solutions for Enterprise SMBs',
-  description: 'Transforming Business Operations with Intelligent AI Agents',
+  title: 'HiveSoft - Precision AI for the Fintech Frontier',
+  description: 'Specialized AI consulting firm delivering low-latency trading systems, fintech data analytics, and AI trading bots.',
 }
 
 export default function RootLayout({

@@ -43,7 +43,7 @@ export default function ContactForm() {
         phone: '',
         message: ''
       })
-    } catch (error) {
+    } catch {
       setSubmitError('There was an error submitting your form. Please try again.')
     } finally {
       setIsSubmitting(false)
@@ -57,7 +57,7 @@ export default function ContactForm() {
           <div className="text-5xl mb-4">✅</div>
           <h3 className="text-2xl font-bold text-gray-900 mb-2">Thank You!</h3>
           <p className="text-gray-600 mb-6">
-            We've received your message and will get back to you shortly.
+            We&apos;ve received your message and will get back to you shortly.
           </p>
           <button
             onClick={() => setSubmitSuccess(false)}
