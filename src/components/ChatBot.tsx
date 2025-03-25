@@ -19,7 +19,7 @@ interface ConversationState {
 
 const predefinedResponses = {
   initial: {
-    greeting: "Hi! I'm HiveSoft's AI assistant. I can help you explore our fintech solutions. What brings you here today?",
+    greeting: "Hi! I'm Buzz, your AI assistant. I can help you explore our fintech solutions. What brings you here today?",
     options: [
       "Trading Systems",
       "Data Analytics",
@@ -62,7 +62,7 @@ export default function ChatBot() {
     setMounted(true)
     // Add initial bot message
     if (messages.length === 0) {
-      addMessage("Hi! I'm your HiveSoft AI assistant. I can help you explore our fintech solutions. What brings you here today?", false)
+      addMessage("Hi! I'm Buzz, your AI assistant. I can help you explore our fintech solutions. What brings you here today?", false)
     }
   }, [])
 
@@ -167,6 +167,23 @@ export default function ChatBot() {
 
   return (
     <div className="flex flex-col h-[600px] bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+      {/* Chat Header */}
+      <div className="bg-gradient-to-r from-indigo-600 to-blue-600 p-4 flex items-center space-x-3">
+        <div className="relative">
+          <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+            <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white dark:border-gray-800"></div>
+        </div>
+        <div>
+          <h3 className="text-white font-semibold">Buzz</h3>
+          <p className="text-white/80 text-sm">AI Assistant</p>
+        </div>
+      </div>
+
       {/* Chat Window */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
@@ -178,7 +195,7 @@ export default function ChatBot() {
               className={`max-w-[80%] rounded-lg p-3 ${
                 message.isUser
                   ? 'bg-indigo-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
               }`}
             >
               {message.text}
@@ -201,7 +218,7 @@ export default function ChatBot() {
 
       {/* Quick Options */}
       {conversationState.stage === 'initial' && (
-        <div className="px-4 py-2 bg-gray-50 border-t">
+        <div className="px-4 py-2 bg-gray-50 dark:bg-gray-700 border-t dark:border-gray-600">
           <div className="flex flex-wrap gap-2">
             {predefinedResponses.initial.options.map((option) => (
               <button
@@ -211,7 +228,7 @@ export default function ChatBot() {
                   setInput(option)
                   handleSubmit(new Event('submit') as unknown as React.FormEvent)
                 }}
-                className="px-3 py-1 text-sm bg-white border border-gray-300 rounded-full hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="px-3 py-1 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900 dark:text-gray-100"
               >
                 {option}
               </button>
@@ -228,7 +245,7 @@ export default function ChatBot() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your message..."
-            className="flex-1 rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="flex-1 rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900 dark:text-gray-100 dark:bg-gray-700 dark:border-gray-600"
           />
           <button
             type="submit"
