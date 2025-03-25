@@ -1,14 +1,34 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [darkMode, setDarkMode] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+    // Check if dark mode is enabled in localStorage or system preference
+    const isDark = localStorage.getItem('darkMode') === 'true' || 
+      (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    setDarkMode(isDark)
+    if (isDark) {
+      document.documentElement.classList.add('dark')
+    }
+  }, [])
 
   // Toggle dark mode
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode)
+    const newDarkMode = !darkMode
+    setDarkMode(newDarkMode)
+    localStorage.setItem('darkMode', newDarkMode.toString())
     document.documentElement.classList.toggle('dark')
+  }
+
+  // Prevent hydration mismatch by not rendering until mounted
+  if (!mounted) {
+    return null
   }
 
   return (
@@ -16,7 +36,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-3 md:py-4 md:space-x-10">
           <div className="flex justify-start">
-            <a href="#" className="flex items-center">
+            <Link href="/" className="flex items-center">
               <div className="w-10 h-10 relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-blue-500 rounded-lg shadow-lg transform -rotate-6 scale-110"></div>
                 <div className="absolute inset-0 bg-white dark:bg-gray-900 rounded-md flex items-center justify-center">
@@ -28,7 +48,7 @@ export default function Navbar() {
               <div className="ml-3">
                 <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">HiveSoft</span>
               </div>
-            </a>
+            </Link>
           </div>
           
           <div className="-mr-2 -my-2 md:hidden">
@@ -51,10 +71,19 @@ export default function Navbar() {
           </div>
           
           <nav className="hidden md:flex space-x-10">
-            {['Solutions', 'Features', 'Contact'].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} className="text-base font-medium text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-                {item}
-              </a>
+            {[
+              { name: 'Solutions', href: '/#solutions' },
+              { name: 'Features', href: '/#features' },
+              { name: 'Consultation', href: '/#consultation' },
+              { name: 'Contact', href: '/#contact' }
+            ].map((item) => (
+              <Link 
+                key={item.name} 
+                href={item.href}
+                className="text-base font-medium text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+              >
+                {item.name}
+              </Link>
             ))}
           </nav>
           
@@ -76,8 +105,8 @@ export default function Navbar() {
               )}
             </button>
             
-            <a 
-              href="#" 
+            <Link 
+              href="/#consultation"
               className="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 dark:from-indigo-500 dark:to-blue-500 hover:shadow-md transition-all"
             >
               <span className="flex items-center">
@@ -88,22 +117,27 @@ export default function Navbar() {
                 </svg>
                 Get Started
               </span>
-            </a>
+            </Link>
           </div>
         </div>
         
         {/* Mobile menu */}
         <div className={`${isOpen ? 'block' : 'hidden'} md:hidden border-t border-gray-100 dark:border-gray-800 py-2`}>
           <div className="pt-2 pb-4 space-y-1">
-            {['Solutions', 'Features', 'Contact'].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
+            {[
+              { name: 'Solutions', href: '/#solutions' },
+              { name: 'Features', href: '/#features' },
+              { name: 'Consultation', href: '/#consultation' },
+              { name: 'Contact', href: '/#contact' }
+            ].map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
                 className="block py-2 px-3 text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md"
                 onClick={() => setIsOpen(false)}
               >
-                {item}
-              </a>
+                {item.name}
+              </Link>
             ))}
           </div>
           <div className="pt-4 pb-2 border-t border-gray-100 dark:border-gray-800">
@@ -129,8 +163,8 @@ export default function Navbar() {
                 )}
               </button>
               
-              <a 
-                href="#" 
+              <Link 
+                href="/#consultation"
                 className="ml-2 flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 dark:from-indigo-500 dark:to-blue-500 transition-all"
               >
                 <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -139,7 +173,7 @@ export default function Navbar() {
                   <path d="M16 12H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 Get Started
-              </a>
+              </Link>
             </div>
           </div>
         </div>
